@@ -4,7 +4,7 @@
 
 using namespace std;
 
-enum key { COMPLEX, SHOT };
+enum key { COMPLEX, SHOT, POLAR };
 struct type
 {
 	type *next;
@@ -28,6 +28,15 @@ struct shot :type
 
 	int number1;
 	int number2;
+};
+
+struct polar :type
+{
+	type *next;
+	key k; // ключ
+
+	int radius;
+	float angle;
 };
 
 struct container
@@ -59,12 +68,17 @@ void OutT(type *s, ofstream &WriteFile);
 shot * InputShot(ifstream &ReadFile);
 
 // Вывод дробного числа
-void OutSHOT(shot *m, ofstream &WriteFile);
+void OutSHOT(shot *S, ofstream &WriteFile);
 
 // Ввод комплексного числа
 complex * InputComplex(ifstream &ReadFile);
 
 //Вывод комплексного числа
-void OutCOM(complex *d, ofstream &WriteFile);
+void OutCOM(complex *C, ofstream &WriteFile);
+
+polar * InputPolar(ifstream &ReadFile);
+
+//Вывод комплексного числа
+void OutPOL(polar *P, ofstream &WriteFile);
 
 int NOD(int a, int b);

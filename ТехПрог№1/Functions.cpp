@@ -79,15 +79,16 @@ type *InType(type *current, ifstream &ReadFile)
 	ReadFile >> k;
 	switch (k) {
 	case 1:
-
 		temp = (type*)InputComplex(ReadFile);
 		temp->k = COMPLEX;
 		break;
-
 	case 2:
-
 		temp = (type*)InputShot(ReadFile);
 		temp->k = SHOT;
+		break;
+	case 3:
+		temp = (type*)InputPolar(ReadFile);
+		temp->k = POLAR;
 		break;
 
 	default:
@@ -112,21 +113,32 @@ type *InType(type *current, ifstream &ReadFile)
 // Ввод комплексного числа
 complex * InputComplex(ifstream &ReadFile)
 {
-	complex *d;
-	d = new complex;
-	ReadFile >> d->number1;
-	ReadFile >> d->number2;
-	return(d);
+	complex *C;
+	C = new complex;
+	ReadFile >> C->number1;
+	ReadFile >> C->number2;
+	return(C);
 }
 
 //Ввод дробного числа
 shot * InputShot(ifstream &ReadFile)
 {
-	shot *m;
-	m = new shot;
-	ReadFile >> m->number1;
-	ReadFile >> m->number2;
-	return(m);
+	shot *S;
+	S = new shot;
+	ReadFile >> S->number1;
+	ReadFile >> S->number2;
+	return(S);
+}
+
+polar * InputPolar(ifstream & ReadFile)
+{
+	polar *P;
+	P = new polar;
+	ReadFile >> P->radius;
+	if (P->radius < 0)
+		P->radius = 0 - P->radius;
+	ReadFile >> P->angle;
+	return(P);
 }
 
 // Вывод текущей структуры
@@ -143,6 +155,9 @@ void OutT(type *s, ofstream &WriteFile)
 
 		OutSHOT((shot*)s, WriteFile);
 		break;
+	case POLAR:
+		OutPOL((polar*)s, WriteFile);
+		break;
 
 	default:
 		WriteFile << "Incorrect figure!" << endl;
@@ -152,25 +167,33 @@ void OutT(type *s, ofstream &WriteFile)
 
 
 // Вывод дробной структуры
-void OutSHOT(shot *m, ofstream &WriteFile)
+void OutSHOT(shot *S, ofstream &WriteFile)
 {
 	int Nod;
 	WriteFile << "Дробь:   ";
-	Nod = NOD(m->number1, m->number2);
-	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << endl;
+	Nod = NOD(S->number1, S->number2);
+	WriteFile << S->number1 / Nod << "/" << S->number2 / Nod << endl;
 }
 
 
 
 
 //Вывод комплексной структуры
-void OutCOM(complex *d, ofstream &WriteFile)
+void OutCOM(complex *C, ofstream &WriteFile)
 {
-	WriteFile << "Комплексное число:    Z=" << d->number1 ;
-	if (d->number2 > 0)
-		WriteFile << "+" << d->number2 << "i" << endl;
+	WriteFile << "Комплексное число:    Z=" << C->number1 ;
+	if (C->number2 > 0)
+		WriteFile << "+" << C->number2 << "i" << endl;
 	else
-		WriteFile << d->number2 << "i" << endl;
+		WriteFile << C->number2 << "i" << endl;
+}
+
+
+
+void OutPOL(polar * P, ofstream & WriteFile)
+{
+	WriteFile << "Полярные координаты:   ";
+	WriteFile << "(" << P->radius << ";" << P->angle << ")" << endl;
 }
 
 int NOD(int a, int b)
