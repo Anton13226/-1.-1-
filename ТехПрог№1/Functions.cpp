@@ -126,6 +126,7 @@ shot * InputShot(ifstream &ReadFile)
 	m = new shot;
 	ReadFile >> m->number1;
 	ReadFile >> m->number2;
+	getline(ReadFile, m->metric, ' ');
 	return(m);
 }
 
@@ -157,7 +158,7 @@ void OutSHOT(shot *m, ofstream &WriteFile)
 	int Nod;
 	WriteFile << "ִנמבü:   ";
 	Nod = NOD(m->number1, m->number2);
-	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << endl;
+	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << " ֵ.ָ " <<m->metric << endl;
 }
 
 
