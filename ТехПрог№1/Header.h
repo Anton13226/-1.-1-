@@ -51,6 +51,8 @@ float Count(shot *m);
 
 float Count(complex *d);
 
+void Sorting(container &c);
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);

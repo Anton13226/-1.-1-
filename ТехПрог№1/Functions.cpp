@@ -188,6 +188,33 @@ float Count(complex * d)
 	return Sort;
 }
 
+/*void Sorting(container &c)
+{
+		for (int i = 0; i < c.len - 1; i++)
+		{
+			for (int j = 0; j < c.len - 1; j++)
+			{
+				if ((type*)Count(c.current) > (type*)Count(c.current->next))
+				{
+					Node *prediudushiy = head;
+
+					while (prediudushiy->next != head)
+						prediudushiy = prediudushiy->next;
+
+					Node *next1 = head->next;
+					Node *next2 = head->next->next;
+
+					next1->next = head;
+					head->next = next2;
+					prediudushiy->next = next1;
+					head = next1;
+				}
+				head = head->next;
+			}
+			head = head->next;
+		}
+}
+*/
 
 int NOD(int a, int b)
 {
