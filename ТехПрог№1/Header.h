@@ -17,8 +17,8 @@ struct complex :type
 	type *next;
 	key k; // ключ
 
-	int number1;
-	int number2;
+	double number1;
+	double number2;
 };
 
 struct shot :type
@@ -26,8 +26,8 @@ struct shot :type
 	type *next;
 	key k; // ключ
 
-	int number1;
-	int number2;
+	double number1;
+	double number2;
 };
 
 struct container
@@ -46,6 +46,10 @@ void In(ifstream &ReadFile, container &c);
 void Clear(container &c);
 
 void Out(container &c, ofstream &WriteFile);
+
+float Count(shot *m);
+
+float Count(complex *d);
 
 
 // Общий ввод

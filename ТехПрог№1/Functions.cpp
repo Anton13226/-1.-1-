@@ -155,7 +155,7 @@ void OutT(type *s, ofstream &WriteFile)
 void OutSHOT(shot *m, ofstream &WriteFile)
 {
 	int Nod;
-	WriteFile << "ִנמבü:   ";
+	WriteFile << "ִנמבü:   " << "||";
 	Nod = NOD(m->number1, m->number2);
 	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << endl;
 }
@@ -172,6 +172,22 @@ void OutCOM(complex *d, ofstream &WriteFile)
 	else
 		WriteFile << d->number2 << "i" << endl;
 }
+
+
+float Count(shot * m)
+{
+	double Sort = 0;
+	Sort = round((m->number1 / m->number2) * 100) / 100;
+	return Sort;
+}
+
+float Count(complex * d)
+{
+	double Sort = 0;
+	Sort = round(sqrt(d->number1*d->number1 + d->number2 * d->number2) * 100) / 100;
+	return Sort;
+}
+
 
 int NOD(int a, int b)
 {
