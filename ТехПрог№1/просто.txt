@@ -1,0 +1,29 @@
+WriteFile << "Действительная часть:   ";
+	for (int i = 0; i < d->size; i++)
+	{
+		if (i == 2)
+		{
+			WriteFile << d->mass[i];
+		}
+		if (i > 2)
+		{
+			if (d->mass[i] == 'i')
+				break;
+
+			if ((d->mass[i] == '+'))
+			{
+				WriteFile << " и ";
+				continue;
+			}
+			if ((d->mass[i] == '-'))
+			{
+				WriteFile << " и "<< d->mass[i];
+			}
+			else
+			{
+				
+				WriteFile << d->mass[i];
+			}
+		}
+	}
+	WriteFile << endl;
