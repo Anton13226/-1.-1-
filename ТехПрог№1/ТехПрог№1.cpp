@@ -13,6 +13,7 @@ int main()
 	container c;
 	Initialisation(c);
 	In(ReadFile, c);
+	Sorting(c);
 	Out(c, WriteFile);
 	Clear(c);
 	cout << "Stop" << endl;

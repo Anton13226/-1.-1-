@@ -154,8 +154,9 @@ void OutT(type *s, ofstream &WriteFile)
 // Вывод дробной структуры
 void OutSHOT(shot *m, ofstream &WriteFile)
 {
+	float temp = Count(m);
 	int Nod;
-	WriteFile << "Дробь:   " << "||";
+	WriteFile << "Дробь:   " << temp << "|||";
 	Nod = NOD(m->number1, m->number2);
 	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << endl;
 }
@@ -166,7 +167,8 @@ void OutSHOT(shot *m, ofstream &WriteFile)
 //Вывод комплексной структуры
 void OutCOM(complex *d, ofstream &WriteFile)
 {
-	WriteFile << "Комплексное число:    Z=" << d->number1 ;
+	float temp = Count(d);
+	WriteFile << "Комплексное число:    Z=" << temp << "|||" << d->number1 ;
 	if (d->number2 > 0)
 		WriteFile << "+" << d->number2 << "i" << endl;
 	else
@@ -188,33 +190,49 @@ float Count(complex * d)
 	return Sort;
 }
 
-/*void Sorting(container &c)
+float Sravnenie(type *s)
+{
+	float temp;
+	switch (s->k) {
+	case COMPLEX:
+
+		temp = Count((complex*)s);
+		return temp;
+
+	case SHOT:
+
+		temp = Count((shot*) s);
+		return temp;
+	}
+}
+
+void Sorting(container &c)
 {
 		for (int i = 0; i < c.len - 1; i++)
 		{
 			for (int j = 0; j < c.len - 1; j++)
 			{
-				if ((type*)Count(c.current) > (type*)Count(c.current->next))
+				if (Sravnenie(c.current) > Sravnenie(c.current->next))
 				{
-					Node *prediudushiy = head;
+					type *prediudushiy = c.current;
 
-					while (prediudushiy->next != head)
+					while (prediudushiy->next != c.current)
 						prediudushiy = prediudushiy->next;
 
-					Node *next1 = head->next;
-					Node *next2 = head->next->next;
+					type *next1 = c.current->next;
+					type *next2 = next1->next;
 
-					next1->next = head;
-					head->next = next2;
+					next1->next = c.current;
+					c.current->next = next2;
 					prediudushiy->next = next1;
-					head = next1;
+					c.current = next1;
 				}
-				head = head->next;
+				c.current = c.current->next;
 			}
-			head = head->next;
+			c.current = c.current->next;
 		}
 }
-*/
+
 
 int NOD(int a, int b)
 {

@@ -53,6 +53,9 @@ float Count(complex *d);
 
 void Sorting(container &c);
 
+float Sravnenie(type *s);
+
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);
