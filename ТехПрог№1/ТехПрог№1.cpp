@@ -14,6 +14,7 @@ int main()
 	Initialisation(c);
 	In(ReadFile, c);
 	Out(c, WriteFile);
+	FiltredOut(c, WriteFile);
 	Clear(c);
 	cout << "Stop" << endl;
 	return 0;

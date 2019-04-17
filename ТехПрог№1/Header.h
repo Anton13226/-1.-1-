@@ -47,6 +47,11 @@ void Clear(container &c);
 
 void Out(container &c, ofstream &WriteFile);
 
+void FiltredOut(container &c, ofstream &WriteFile);
+
+void SwitchOut(type *s, ofstream &WriteFile);
+
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);

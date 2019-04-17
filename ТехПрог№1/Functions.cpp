@@ -173,6 +173,40 @@ void OutCOM(complex *d, ofstream &WriteFile)
 		WriteFile << d->number2 << "i" << endl;
 }
 
+void SwitchOut(type *s, ofstream &WriteFile)
+{
+	switch (s->k) {
+	case COMPLEX:
+
+		break;
+
+	case SHOT:
+
+		OutSHOT((shot*)s, WriteFile);
+		break;
+
+	default:
+		WriteFile << "Incorrect figure!" << endl;
+	}
+}
+
+void FiltredOut(container &c, ofstream &WriteFile)
+{
+	WriteFile << endl << "Только дроби" << endl;
+	for (int i = 0; i < c.len; i++)
+	{
+		if (c.len > 0)
+		{
+			SwitchOut(c.current, WriteFile);
+			c.current = c.current->next;
+		}
+	}
+}
+
+
+
+
+
 int NOD(int a, int b)
 {
 	while ((a && b) != 0)
