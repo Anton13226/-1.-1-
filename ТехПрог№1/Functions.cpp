@@ -201,6 +201,22 @@ void OutPOL(polar * P, ofstream & WriteFile)
 	WriteFile << "(" << P->radius << ";" << P->angle << ")  ||  Å.È " << P->metric << endl;
 }
 
+
+float Count(shot * m)
+{
+	double Sort = 0;
+	Sort = round((m->number1 / m->number2) * 100) / 100;
+	return Sort;
+}
+
+float Count(complex * d)
+{
+	double Sort = 0;
+	Sort = round(sqrt(d->number1*d->number1 + d->number2 * d->number2) * 100) / 100;
+	return Sort;
+}
+
+
 int NOD(int a, int b)
 {
 	while ((a && b) != 0)

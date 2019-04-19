@@ -60,6 +60,10 @@ void Clear(container &c);
 
 void Out(container &c, ofstream &WriteFile);
 
+float Count(shot *m);
+
+float Count(complex *d);
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);
