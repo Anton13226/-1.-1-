@@ -165,7 +165,7 @@ void OutT(type *s, ofstream &WriteFile)
 		break;
 
 	default:
-		WriteFile << "Incorrect figure!" << endl;
+		break;
 	}
 }
 
@@ -279,7 +279,7 @@ void SwitchOut(type *s, ofstream &WriteFile)
 		break;
 
 	default:
-		WriteFile << "Incorrect figure!" << endl;
+		break;
 	}
 }
 
