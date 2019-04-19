@@ -1,6 +1,7 @@
 #pragma once
 #include "iostream"
 #include "fstream"
+#include <string>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ struct shot :type
 
 	int number1;
 	int number2;
+	string metric;
 };
 
 struct polar :type

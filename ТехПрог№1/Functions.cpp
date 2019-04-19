@@ -139,6 +139,12 @@ polar * InputPolar(ifstream & ReadFile)
 		P->radius = 0 - P->radius;
 	ReadFile >> P->angle;
 	return(P);
+	shot *m;
+	m = new shot;
+	ReadFile >> m->number1;
+	ReadFile >> m->number2;
+	getline(ReadFile, m->metric, ' ');
+	return(m);
 }
 
 // Вывод текущей структуры
@@ -171,8 +177,8 @@ void OutSHOT(shot *S, ofstream &WriteFile)
 {
 	int Nod;
 	WriteFile << "Дробь:   ";
-	Nod = NOD(S->number1, S->number2);
-	WriteFile << S->number1 / Nod << "/" << S->number2 / Nod << endl;
+	Nod = NOD(m->number1, m->number2);
+	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << " Е.И " <<m->metric << endl;
 }
 
 
