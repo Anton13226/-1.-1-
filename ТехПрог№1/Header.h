@@ -60,9 +60,11 @@ void Clear(container &c);
 
 void Out(container &c, ofstream &WriteFile);
 
-float Count(shot *m);
+float Count(shot *S);
 
-float Count(complex *d);
+float Count(complex *C);
+
+float Count(polar *P);
 
 
 // Общий ввод

@@ -202,19 +202,27 @@ void OutPOL(polar * P, ofstream & WriteFile)
 }
 
 
-float Count(shot * m)
+float Count(shot * S)
 {
 	double Sort = 0;
-	Sort = round((m->number1 / m->number2) * 100) / 100;
+	Sort = round((S->number1 / S->number2) * 100) / 100;
 	return Sort;
 }
 
-float Count(complex * d)
+float Count(complex * C)
 {
 	double Sort = 0;
-	Sort = round(sqrt(d->number1*d->number1 + d->number2 * d->number2) * 100) / 100;
+	Sort = round(sqrt(C->number1*C->number1 + C->number2 * C->number2) * 100) / 100;
 	return Sort;
 }
+
+float Count(polar * P)
+{
+	double Sort = 0;
+	Sort = P->angle;
+	return Sort;
+}
+
 
 
 int NOD(int a, int b)
