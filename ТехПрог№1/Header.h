@@ -66,6 +66,11 @@ float Count(complex *C);
 
 float Count(polar *P);
 
+void Sorting(container &c);
+
+float Sravnenie(type *s);
+
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);

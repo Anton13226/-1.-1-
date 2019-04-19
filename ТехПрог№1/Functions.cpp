@@ -174,6 +174,7 @@ void OutT(type *s, ofstream &WriteFile)
 // Вывод дробной структуры
 void OutSHOT(shot *S, ofstream &WriteFile)
 {
+	float temp = Count(m);
 	int Nod;
 	WriteFile << "Дробь:   ";
 	Nod = NOD(S->number1, S->number2);
@@ -221,6 +222,49 @@ float Count(polar * P)
 	double Sort = 0;
 	Sort = P->angle;
 	return Sort;
+}
+
+float Sravnenie(type *s)
+{
+	float temp;
+	switch (s->k) {
+	case COMPLEX:
+
+		temp = Count((complex*)s);
+		return temp;
+
+	case SHOT:
+
+		temp = Count((shot*) s);
+		return temp;
+	}
+}
+
+void Sorting(container &c)
+{
+		for (int i = 0; i < c.len - 1; i++)
+		{
+			for (int j = 0; j < c.len - 1; j++)
+			{
+				if (Sravnenie(c.current) > Sravnenie(c.current->next))
+				{
+					type *prediudushiy = c.current;
+
+					while (prediudushiy->next != c.current)
+						prediudushiy = prediudushiy->next;
+
+					type *next1 = c.current->next;
+					type *next2 = next1->next;
+
+					next1->next = c.current;
+					c.current->next = next2;
+					prediudushiy->next = next1;
+					c.current = next1;
+				}
+				c.current = c.current->next;
+			}
+			c.current = c.current->next;
+		}
 }
 
 
