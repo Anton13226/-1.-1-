@@ -18,8 +18,9 @@ struct complex :type
 	type *next;
 	key k; // ключ
 
-	int number1;
-	int number2;
+	double number1;
+	double number2;
+	string metric;
 };
 
 struct shot :type
@@ -27,8 +28,8 @@ struct shot :type
 	type *next;
 	key k; // ключ
 
-	int number1;
-	int number2;
+	double number1;
+	double number2;
 	string metric;
 };
 
@@ -37,8 +38,9 @@ struct polar :type
 	type *next;
 	key k; // ключ
 
-	int radius;
-	float angle;
+	double radius;
+	double angle;
+	string metric;
 };
 
 struct container

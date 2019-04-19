@@ -117,6 +117,7 @@ complex * InputComplex(ifstream &ReadFile)
 	C = new complex;
 	ReadFile >> C->number1;
 	ReadFile >> C->number2;
+	getline(ReadFile, C->metric, ' ');
 	return(C);
 }
 
@@ -127,6 +128,7 @@ shot * InputShot(ifstream &ReadFile)
 	S = new shot;
 	ReadFile >> S->number1;
 	ReadFile >> S->number2;
+	getline(ReadFile, S->metric, ' ');
 	return(S);
 }
 
@@ -138,13 +140,10 @@ polar * InputPolar(ifstream & ReadFile)
 	if (P->radius < 0)
 		P->radius = 0 - P->radius;
 	ReadFile >> P->angle;
+	if ((P->angle < 0) || (P->angle > 6.2))
+		P->radius = 6.2;
+	getline(ReadFile, P->metric, ' ');
 	return(P);
-	shot *m;
-	m = new shot;
-	ReadFile >> m->number1;
-	ReadFile >> m->number2;
-	getline(ReadFile, m->metric, ' ');
-	return(m);
 }
 
 // Вывод текущей структуры
@@ -177,8 +176,8 @@ void OutSHOT(shot *S, ofstream &WriteFile)
 {
 	int Nod;
 	WriteFile << "Дробь:   ";
-	Nod = NOD(m->number1, m->number2);
-	WriteFile << m->number1 / Nod << "/" << m->number2 / Nod << " Е.И " <<m->metric << endl;
+	Nod = NOD(S->number1, S->number2);
+	WriteFile << S->number1 / Nod << "/" << S->number2 / Nod << "  ||  Е.И " << S->metric << endl;
 }
 
 
@@ -189,9 +188,9 @@ void OutCOM(complex *C, ofstream &WriteFile)
 {
 	WriteFile << "Комплексное число:    Z=" << C->number1 ;
 	if (C->number2 > 0)
-		WriteFile << "+" << C->number2 << "i" << endl;
+		WriteFile << "+" << C->number2 << "i  ||  Е.И " << C->metric << endl;
 	else
-		WriteFile << C->number2 << "i" << endl;
+		WriteFile << C->number2 << "i  ||  Е.И " << C->metric << endl;
 }
 
 
@@ -199,7 +198,7 @@ void OutCOM(complex *C, ofstream &WriteFile)
 void OutPOL(polar * P, ofstream & WriteFile)
 {
 	WriteFile << "Полярные координаты:   ";
-	WriteFile << "(" << P->radius << ";" << P->angle << ")" << endl;
+	WriteFile << "(" << P->radius << ";" << P->angle << ")  ||  Е.И " << P->metric << endl;
 }
 
 int NOD(int a, int b)
