@@ -174,7 +174,6 @@ void OutT(type *s, ofstream &WriteFile)
 // Вывод дробной структуры
 void OutSHOT(shot *S, ofstream &WriteFile)
 {
-	float temp = Count(m);
 	int Nod;
 	WriteFile << "Дробь:   ";
 	Nod = NOD(S->number1, S->number2);
