@@ -71,6 +71,11 @@ void Sorting(container &c);
 float Sravnenie(type *s);
 
 
+void FiltredOut(container &c, ofstream &WriteFile);
+
+void SwitchOut(type *s, ofstream &WriteFile);
+
+
 
 // Общий ввод
 type * InType(type *current, ifstream &ReadFile);

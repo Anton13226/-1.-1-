@@ -15,6 +15,7 @@ int main()
 	In(ReadFile, c);
 	Sorting(c);
 	Out(c, WriteFile);
+	FiltredOut(c, WriteFile);
 	Clear(c);
 	cout << "Stop" << endl;
 	return 0;
