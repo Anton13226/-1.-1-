@@ -106,6 +106,9 @@ type *InType(type *current, ifstream &ReadFile)
 		current->next = temp; // предыдущий узел указывает на создаваемый
 		temp->next = help; // созданный узел указывает на следующий элемент
 	}
+
+
+
 	return temp;
 }
 
@@ -236,6 +239,10 @@ float Sravnenie(type *s)
 
 		temp = Count((shot*) s);
 		return temp;
+	case POLAR:
+
+		temp = Count((polar*)s);
+		return temp;
 	}
 }
 
@@ -276,6 +283,9 @@ void SwitchOut(type *s, ofstream &WriteFile)
 	case SHOT:
 
 		OutSHOT((shot*)s, WriteFile);
+		break;
+	case POLAR:
+
 		break;
 
 	default:
