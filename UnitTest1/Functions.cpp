@@ -28,7 +28,6 @@ void In(ifstream &ReadFile, container &c)
 	}
 }
 
-
 // Вывод содержимого контейнера
 void Out(container &c, ofstream &WriteFile)
 {
@@ -114,7 +113,7 @@ type *InType(type *current, ifstream &ReadFile)
 }
 
 
-
+// Ввод комплексного числа
 complex * InputComplex(ifstream &ReadFile)
 {
 	complex *C;
@@ -125,6 +124,7 @@ complex * InputComplex(ifstream &ReadFile)
 	return(C);
 }
 
+//Ввод дробного числа
 shot * InputShot(ifstream &ReadFile)
 {
 	shot *S;
@@ -148,8 +148,6 @@ polar * InputPolar(ifstream & ReadFile)
 	getline(ReadFile, P->metric, ' ');
 	return(P);
 }
-
-
 
 // Вывод текущей структуры
 void OutT(type *s, ofstream &WriteFile)
@@ -176,6 +174,7 @@ void OutT(type *s, ofstream &WriteFile)
 
 
 
+// Вывод дробной структуры
 void OutSHOT(shot *S, ofstream &WriteFile)
 {
 	int Nod;
@@ -184,6 +183,10 @@ void OutSHOT(shot *S, ofstream &WriteFile)
 	WriteFile << S->number1 / Nod << "/" << S->number2 / Nod << "  ||  Е.И " << S->metric << endl;
 }
 
+
+
+
+//Вывод комплексной структуры
 void OutCOM(complex *C, ofstream &WriteFile)
 {
 	WriteFile << "Комплексное число:    Z=" << C->number1 ;
@@ -192,6 +195,8 @@ void OutCOM(complex *C, ofstream &WriteFile)
 	else
 		WriteFile << C->number2 << "i  ||  Е.И " << C->metric << endl;
 }
+
+
 
 void OutPOL(polar * P, ofstream & WriteFile)
 {
@@ -220,7 +225,6 @@ float Count(polar * P)
 	Sort = P->angle;
 	return Sort;
 }
-
 
 float Sravnenie(type *s)
 {
