@@ -75,9 +75,31 @@ void Clear(container &c)
 //Общий ввод
 type *InType(type *current, ifstream &ReadFile)
 {
+	string chek;
+	ReadFile >> chek;
+
+	if (chek == "\0")
+	{
+		return false;
+	}
+	if (chek.length()  > 1)
+	{
+		ReadFile.get();
+		getline(ReadFile, chek, '\n');
+		return NULL;
+	}
+	if (!isdigit(int(unsigned char(chek.front()))))
+	{
+		ReadFile.get();
+		getline(ReadFile, chek, '\n');
+		return NULL;
+	}
+	int k=stoull(chek);
+
 	type *temp, *help;
-	int k;
-	ReadFile >> k;
+
+//	int k;
+	//ReadFile >> k;
 	switch (k) {
 	case 1:
 		temp = (type*)InputComplex(ReadFile);
@@ -112,16 +134,128 @@ type *InType(type *current, ifstream &ReadFile)
 
 	return temp;
 }
+/*
+////////////////////////////////////////////////////////////////////
+Transport* In(ifstream &ifst)
+{
+	Transport *sp;
+	string temp;
+	int fuel_consumption;
+	int power;
+	ifst >> temp;
+	if (temp == "\0")
+	{
+		return false;
+	}
+	if (temp.length()  > 1)
+	{
+		ifst.get();
+		getline(ifst, temp, '\n');
+		return NULL;
+	}
+	if (!isdigit(int(unsigned char(temp.front()))))
+	{
+		ifst.get();
+		getline(ifst, temp, '\n');
+		return NULL;
+	}
+	int k = stoull(temp);
+	ifst >> temp;
+	if (temp == "\0")
+	{
+		return false;
+	}
+	if (temp.length() > 4)
+	{
+		getline(ifst, temp, '\n');
+		return NULL;
+	}
+	for (auto iter = temp.begin(); iter != temp.end(); ++iter)
+	{
+		if (!isdigit(int(unsigned char(*iter))))
+		{
+			getline(ifst, temp, '\n');
+			return NULL;
+		}
+	}
+	power = stoul(temp);
 
+	ifst >> temp;
+	if (temp == "\0")
+	{
+		return false;
+	}
+	for (auto iter = temp.begin(); iter != temp.end(); ++iter)
+	{
+		if (!isdigit(int(unsigned char(*iter))))
+		{
+			getline(ifst, temp, '\n');
+			return NULL;
+		}
+	}
+	if (temp.length() > 3)
+	{
+		getline(ifst, temp, '\n');
+		return NULL;
+	}
+	fuel_consumption = stoull(temp);
+	switch (k) {
+	case 1:
+		sp = (Transport*)InDataForTruck(ifst);
+		if (!sp)
+		{
+			return NULL;
+		}
+		else
+		{
+			sp->k = TRUCK;
+			sp->power = power;
+			sp->fuel_consumption = fuel_consumption;
+			return sp;
+		}
+	case 2:
 
+		sp = (Transport*)InDataForBus(ifst);
+		if (!sp)
+		{
+			return NULL;
+		}
+		else
+		{
+			sp->k = BUS;
+			sp->power = power;
+			sp->fuel_consumption = fuel_consumption;
+			return sp;
+		}
 
+	case 3:
+
+		sp = (Transport*)InDataForPassengerCar(ifst);
+		if (!sp)
+		{
+			return NULL;
+		}
+		else
+		{
+			sp->k = PASSENGER_CAR;
+			sp->power = power;
+			sp->fuel_consumption = fuel_consumption;
+			return sp;
+		}
+	default:
+		getline(ifst, temp, '\n');
+		return NULL;
+	}
+}
+///////////////////////////////////////////////////////////////////////
+*/
 complex * InputComplex(ifstream &ReadFile)
 {
 	complex *C;
 	C = new complex;
 	ReadFile >> C->number1;
 	ReadFile >> C->number2;
-	getline(ReadFile, C->metric, ' ');
+	getline(ReadFile, C->metric, '\n');
 	return(C);
 }
 
@@ -131,7 +265,7 @@ shot * InputShot(ifstream &ReadFile)
 	S = new shot;
 	ReadFile >> S->number1;
 	ReadFile >> S->number2;
-	getline(ReadFile, S->metric, ' ');
+	getline(ReadFile, S->metric, '\n');
 	return(S);
 }
 
@@ -145,7 +279,7 @@ polar * InputPolar(ifstream & ReadFile)
 	ReadFile >> P->angle;
 	if ((P->angle < 0) || (P->angle > 6.2))
 		P->radius = 6.2;
-	getline(ReadFile, P->metric, ' ');
+	getline(ReadFile, P->metric, '\n');
 	return(P);
 }
 
