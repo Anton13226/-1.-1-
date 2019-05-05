@@ -21,10 +21,10 @@ int main()
 	In(ReadFile, c);
 	Out(c, WriteFile);
 	WriteFile << "================================================" << endl;
-	//Sorting(c);
-	//Out(c, WriteFile);
-	//FiltredOut(c, WriteFile);
-//	Clear(c);
+	Sorting(c);
+	Out(c, WriteFile);
+	FiltredOut(c, WriteFile);
+	Clear(c);
 	cout << "Stop" << endl;
 	return 0;
 }

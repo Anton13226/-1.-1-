@@ -13,15 +13,15 @@ void Initialisation(container &c)
 // Ввод содержимого контейнера
 void In(ifstream &ReadFile, container &c)
 {
-	if (!ReadFile.eof())
+	/*if (!ReadFile.eof())
 	{
-		c.current = InType(c.current, ReadFile);
+		c.current = InType(c, ReadFile);
 		c.len++;
 	}
-
+	*/
 	while (!ReadFile.eof())
 	{
-		if ((c.current = InType(c.current, ReadFile)) != 0)
+		if (InType(c, ReadFile))
 		{
 			c.len++;
 		}
@@ -36,6 +36,8 @@ void Out(container &c, ofstream &WriteFile)
 	for (int i = 0; i < c.len; i++)
 	{
 		WriteFile << i + 1 << ": ";
+		if (i == 0)
+			c.current = c.current->next;
 		if (c.len > 0)
 		{
 			OutT(c.current, WriteFile);
@@ -73,44 +75,52 @@ void Clear(container &c)
 
 ///////////////////________СПИСОК___________////////////////////
 //Общий ввод
-type *InType(container &c, ifstream &ReadFile)
+bool InType(container &c, ifstream &ReadFile)
 {
-	/*string chek;
+	string chek;
 	ReadFile >> chek;
 
 	if (chek == "\0")
 	{
 		return false;
 	}
+
 	if (chek.length()  > 1)
 	{
 		ReadFile.get();
 		getline(ReadFile, chek, '\n');
-		return NULL;
+		return false;
 	}
+
 	if (!isdigit(int(unsigned char(chek.front()))))
 	{
 		ReadFile.get();
 		getline(ReadFile, chek, '\n');
-		return NULL;
+		return false;
 	}
-	int k=stoull(chek);
-	*/
+
+	int k = stoul(chek);
 	type *temp, *help;
 
-	int k;
-	ReadFile >> k;
+//	int k;
+//	ReadFile >> k;
 	switch (k) {
 	case 1:
-		temp = (type*)InputComplex(ReadFile);
+		temp = new complex;
+		if (!InputComplex((complex*)temp,ReadFile))
+			return false;
 		temp->k = COMPLEX;
 		break;
 	case 2:
-		temp = (type*)InputShot(ReadFile);
+		temp = new shot;
+		if (!InputShot((shot*)temp, ReadFile))
+			return false;
 		temp->k = SHOT;
 		break;
 	case 3:
-		temp = (type*)InputPolar(ReadFile);
+		temp = new polar;
+		if (!InputPolar((polar*)temp, ReadFile))
+			return false;
 		temp->k = POLAR;
 		break;
 
@@ -118,168 +128,218 @@ type *InType(container &c, ifstream &ReadFile)
 		return 0;
 	}
 
-	if (current == NULL)
+	if (c.current == NULL)
 	{
-		
+		c.current = temp;
 		temp->next = temp; // указатель на самого себя
 	}
 
 	else
 	{
-		help = current->next; // сохранение указателя на следующий элемент
-		current->next = temp; // предыдущий узел указывает на создаваемый
+		help = c.current->next; // сохранение указателя на следующий элемент
+		c.current->next = temp; // предыдущий узел указывает на создаваемый
 		temp->next = help; // созданный узел указывает на следующий элемент
 	}
-	return temp;
+	return true;
 }
 
-/*
-////////////////////////////////////////////////////////////////////
-Transport* In(ifstream &ifst)
+
+bool InputComplex(complex *temp,ifstream &ReadFile)
 {
-	Transport *sp;
-	string temp;
-	int fuel_consumption;
-	int power;
-	ifst >> temp;
-	if (temp == "\0")
+	//complex *C;
+	//C = new complex;
+
+	string chek;
+	string chek2;
+	bool chekMinus = false;
+	ReadFile >> chek;
+	if (chek == "\0")
 	{
 		return false;
 	}
-	if (temp.length()  > 1)
+
+	if (chek[0] == '-')
 	{
-		ifst.get();
-		getline(ifst, temp, '\n');
-		return NULL;
+		char *buff = new char[chek.size() - 1];
+		for (int i = 1; i < chek.size(); i++)
+		{
+			buff[i - 1] = chek[i];
+		}
+		buff[chek.size() - 1] = '\0';
+		chek = buff;
+		chekMinus = true;
 	}
-	if (!isdigit(int(unsigned char(temp.front()))))
+
+	for (int i = 0; i < chek.size(); i++)
 	{
-		ifst.get();
-		getline(ifst, temp, '\n');
-		return NULL;
+		if (!isdigit(double(unsigned char(chek[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek, '\n');
+			return false;
+		}
 	}
-	int k = stoull(temp);
-	ifst >> temp;
-	if (temp == "\0")
+	temp->number1 = stoul(chek);
+	if (chekMinus)
+	{
+		temp->number1 = (-1)*temp->number1;
+	}
+	ReadFile >> chek2;
+	if (chek2 == "\0")
 	{
 		return false;
 	}
-	if (temp.length() > 4)
+	if (chek2[0] == '-')
 	{
-		getline(ifst, temp, '\n');
-		return NULL;
-	}
-	for (auto iter = temp.begin(); iter != temp.end(); ++iter)
-	{
-		if (!isdigit(int(unsigned char(*iter))))
+		char *buff = new char[chek2.size() - 1];
+		for (int i = 1; i < chek2.size(); i++)
 		{
-			getline(ifst, temp, '\n');
-			return NULL;
+			buff[i - 1] = chek2[i];
+		}
+		buff[chek2.size() - 1] = '\0';
+		chek2 = buff;
+		chekMinus = true;
+	}
+
+	for (int i = 0; i < chek2.size(); i++)
+	{
+		if (!isdigit(double(unsigned char(chek2[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek2, '\n');
+			return false;
 		}
 	}
-	power = stoul(temp);
+	temp->number2 = stoul(chek2);
+	if (chekMinus)
+	{
+		temp->number2 = (-1)*temp->number2;
+	}
 
-	ifst >> temp;
-	if (temp == "\0")
+	getline(ReadFile, temp->metric, '\n');
+	return true;
+}
+
+bool InputShot(shot *temp, ifstream &ReadFile)
+{
+	string chek;
+	string chek2;
+	bool chekMinus = false;
+	ReadFile >> chek;
+	if (chek == "\0")
 	{
 		return false;
 	}
-	for (auto iter = temp.begin(); iter != temp.end(); ++iter)
+
+	if (chek[0] == '-')
 	{
-		if (!isdigit(int(unsigned char(*iter))))
+		char *buff = new char[chek.size() - 1];
+		for (int i = 1; i < chek.size(); i++)
 		{
-			getline(ifst, temp, '\n');
-			return NULL;
+			buff[i - 1] = chek[i];
 		}
+		buff[chek.size() - 1] = '\0';
+		chek = buff;
+		chekMinus = true;
 	}
-	if (temp.length() > 3)
+
+	for (int i = 0; i < chek.size(); i++)
 	{
-		getline(ifst, temp, '\n');
-		return NULL;
+		if (!isdigit(double(unsigned char(chek[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek, '\n');
+			return false;
+		}
 	}
-	fuel_consumption = stoull(temp);
-	switch (k) {
-	case 1:
-		sp = (Transport*)InDataForTruck(ifst);
-		if (!sp)
-		{
-			return NULL;
-		}
-		else
-		{
-			sp->k = TRUCK;
-			sp->power = power;
-			sp->fuel_consumption = fuel_consumption;
-			return sp;
-		}
-	case 2:
-
-		sp = (Transport*)InDataForBus(ifst);
-		if (!sp)
-		{
-			return NULL;
-		}
-		else
-		{
-			sp->k = BUS;
-			sp->power = power;
-			sp->fuel_consumption = fuel_consumption;
-			return sp;
-		}
-
-	case 3:
-
-		sp = (Transport*)InDataForPassengerCar(ifst);
-		if (!sp)
-		{
-			return NULL;
-		}
-		else
-		{
-			sp->k = PASSENGER_CAR;
-			sp->power = power;
-			sp->fuel_consumption = fuel_consumption;
-			return sp;
-		}
-	default:
-		getline(ifst, temp, '\n');
-		return NULL;
+	temp->number1 = stoul(chek);
+	if (chekMinus)
+	{
+		temp->number1 = (-1)*temp->number1;
 	}
-}
-///////////////////////////////////////////////////////////////////////
-*/
-complex * InputComplex(ifstream &ReadFile)
-{
-	complex *C;
-	C = new complex;
-	ReadFile >> C->number1;
-	ReadFile >> C->number2;
-	getline(ReadFile, C->metric, '\n');
-	return(C);
+	ReadFile >> chek2;
+	if (chek2 == "\0")
+	{
+		return false;
+	}
+	if (chek2[0] == '-')
+	{
+		char *buff = new char[chek2.size() - 1];
+		for (int i = 1; i < chek2.size(); i++)
+		{
+			buff[i - 1] = chek2[i];
+		}
+		buff[chek2.size() - 1] = '\0';
+		chek2 = buff;
+		chekMinus = true;
+	}
+
+	for (int i = 0; i < chek2.size(); i++)
+	{
+		if (!isdigit(double(unsigned char(chek2[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek2, '\n');
+			return false;
+		}
+	}
+	temp->number2 = stoul(chek2);
+	if (chekMinus)
+	{
+		temp->number2 = (-1)*temp->number2;
+	}
+
+	getline(ReadFile, temp->metric, '\n');
+	return true;
 }
 
-shot * InputShot(ifstream &ReadFile)
+bool InputPolar(polar *temp, ifstream & ReadFile)
 {
-	shot *S;
-	S = new shot;
-	ReadFile >> S->number1;
-	ReadFile >> S->number2;
-	getline(ReadFile, S->metric, '\n');
-	return(S);
-}
+	string chek;
+	string chek2;
+	ReadFile >> chek;
+	if (chek == "\0")
+	{
+		return false;
+	}
 
-polar * InputPolar(ifstream & ReadFile)
-{
-	polar *P;
-	P = new polar;
-	ReadFile >> P->radius;
-	if (P->radius < 0)
-		P->radius = 0 - P->radius;
-	ReadFile >> P->angle;
-	if ((P->angle < 0) || (P->angle > 6.2))
-		P->radius = 6.2;
-	getline(ReadFile, P->metric, '\n');
-	return(P);
+	if (chek[0] == '-')
+	{
+		return false;
+	}
+
+	for (int i = 0; i < chek.size(); i++)
+	{
+		if (!isdigit(double(unsigned char(chek[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek, '\n');
+			return false;
+		}
+	}
+	temp->radius = stoul(chek);
+	ReadFile >> chek2;
+	if (chek2 == "\0")
+	{
+		return false;
+	}
+	if (chek2[0] == '-')
+	{
+		return false;
+	}
+
+	for (int i = 0; i < chek2.size(); i++)
+	{
+		if (!isdigit(double(unsigned char(chek2[i]))))
+		{
+			ReadFile.get();
+			getline(ReadFile, chek2, '\n');
+			return false;
+		}
+	}
+	temp->angle = stoul(chek2);
+	getline(ReadFile, temp->metric, '\n');
+	return true;
 }
 
 

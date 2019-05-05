@@ -78,25 +78,25 @@ void SwitchOut(type *s, ofstream &WriteFile);
 
 
 // Общий ввод
-type * InType(type *current, ifstream &ReadFile);
+bool InType(container &c, ifstream &ReadFile);
 
 // Общий вывод
 void OutT(type *s, ofstream &WriteFile);
 
 
 // Ввод дробного числа
-shot * InputShot(ifstream &ReadFile);
+bool InputShot(shot *temp, ifstream &ReadFile);
 
 // Вывод дробного числа
 void OutSHOT(shot *S, ofstream &WriteFile);
 
 // Ввод комплексного числа
-complex * InputComplex(ifstream &ReadFile);
+bool InputComplex(complex *temp,ifstream &ReadFile);
 
 //Вывод комплексного числа
 void OutCOM(complex *C, ofstream &WriteFile);
 
-polar * InputPolar(ifstream &ReadFile);
+bool InputPolar(polar *temp, ifstream &ReadFile);
 
 //Вывод комплексного числа
 void OutPOL(polar *P, ofstream &WriteFile);
