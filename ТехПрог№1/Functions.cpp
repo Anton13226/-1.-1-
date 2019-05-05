@@ -73,9 +73,9 @@ void Clear(container &c)
 
 ///////////////////________СПИСОК___________////////////////////
 //Общий ввод
-type *InType(type *current, ifstream &ReadFile)
+type *InType(container &c, ifstream &ReadFile)
 {
-	string chek;
+	/*string chek;
 	ReadFile >> chek;
 
 	if (chek == "\0")
@@ -95,11 +95,11 @@ type *InType(type *current, ifstream &ReadFile)
 		return NULL;
 	}
 	int k=stoull(chek);
-
+	*/
 	type *temp, *help;
 
-//	int k;
-	//ReadFile >> k;
+	int k;
+	ReadFile >> k;
 	switch (k) {
 	case 1:
 		temp = (type*)InputComplex(ReadFile);
@@ -120,6 +120,7 @@ type *InType(type *current, ifstream &ReadFile)
 
 	if (current == NULL)
 	{
+		
 		temp->next = temp; // указатель на самого себя
 	}
 
@@ -129,11 +130,9 @@ type *InType(type *current, ifstream &ReadFile)
 		current->next = temp; // предыдущий узел указывает на создаваемый
 		temp->next = help; // созданный узел указывает на следующий элемент
 	}
-
-
-
 	return temp;
 }
+
 /*
 ////////////////////////////////////////////////////////////////////
 Transport* In(ifstream &ifst)
