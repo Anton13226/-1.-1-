@@ -113,44 +113,6 @@ type *InType(type *current, ifstream &ReadFile)
 	return temp;
 }
 
-
-
-complex * InputComplex(ifstream &ReadFile)
-{
-	complex *C;
-	C = new complex;
-	ReadFile >> C->number1;
-	ReadFile >> C->number2;
-	getline(ReadFile, C->metric, ' ');
-	return(C);
-}
-
-shot * InputShot(ifstream &ReadFile)
-{
-	shot *S;
-	S = new shot;
-	ReadFile >> S->number1;
-	ReadFile >> S->number2;
-	getline(ReadFile, S->metric, ' ');
-	return(S);
-}
-
-polar * InputPolar(ifstream & ReadFile)
-{
-	polar *P;
-	P = new polar;
-	ReadFile >> P->radius;
-	if (P->radius < 0)
-		P->radius = 0 - P->radius;
-	ReadFile >> P->angle;
-	if ((P->angle < 0) || (P->angle > 6.2))
-		P->radius = 6.2;
-	getline(ReadFile, P->metric, ' ');
-	return(P);
-}
-
-
-
 // Вывод текущей структуры
 void OutT(type *s, ofstream &WriteFile)
 {
@@ -174,7 +136,41 @@ void OutT(type *s, ofstream &WriteFile)
 	}
 }
 
+complex * InputComplex(ifstream &ReadFile)
+{
+	complex *C;
+	C = new complex;
+	ReadFile >> C->number1;
+	ReadFile >> C->number2;
+	getline(ReadFile, C->metric, ' ');
+	return(C);
+}
 
+void OutCOM(complex *C, ofstream &WriteFile)
+{
+	WriteFile << "Комплексное число:    Z=" << C->number1;
+	if (C->number2 > 0)
+		WriteFile << "+" << C->number2 << "i  ||  Е.И " << C->metric << endl;
+	else
+		WriteFile << C->number2 << "i  ||  Е.И " << C->metric << endl;
+}
+
+float Count(complex * C)
+{
+	double Sort = 0;
+	Sort = round(sqrt(C->number1*C->number1 + C->number2 * C->number2) * 100) / 100;
+	return Sort;
+}
+
+shot * InputShot(ifstream &ReadFile)
+{
+	shot *S;
+	S = new shot;
+	ReadFile >> S->number1;
+	ReadFile >> S->number2;
+	getline(ReadFile, S->metric, ' ');
+	return(S);
+}
 
 void OutSHOT(shot *S, ofstream &WriteFile)
 {
@@ -184,22 +180,6 @@ void OutSHOT(shot *S, ofstream &WriteFile)
 	WriteFile << S->number1 / Nod << "/" << S->number2 / Nod << "  ||  Е.И " << S->metric << endl;
 }
 
-void OutCOM(complex *C, ofstream &WriteFile)
-{
-	WriteFile << "Комплексное число:    Z=" << C->number1 ;
-	if (C->number2 > 0)
-		WriteFile << "+" << C->number2 << "i  ||  Е.И " << C->metric << endl;
-	else
-		WriteFile << C->number2 << "i  ||  Е.И " << C->metric << endl;
-}
-
-void OutPOL(polar * P, ofstream & WriteFile)
-{
-	WriteFile << "Полярные координаты:   ";
-	WriteFile << "(" << P->radius << ";" << P->angle << ")  ||  Е.И " << P->metric << endl;
-}
-
-
 float Count(shot * S)
 {
 	double Sort = 0;
@@ -207,11 +187,24 @@ float Count(shot * S)
 	return Sort;
 }
 
-float Count(complex * C)
+polar * InputPolar(ifstream & ReadFile)
 {
-	double Sort = 0;
-	Sort = round(sqrt(C->number1*C->number1 + C->number2 * C->number2) * 100) / 100;
-	return Sort;
+	polar *P;
+	P = new polar;
+	ReadFile >> P->radius;
+	if (P->radius < 0)
+		P->radius = 0 - P->radius;
+	ReadFile >> P->angle;
+	if ((P->angle < 0) || (P->angle > 6.2))
+		P->radius = 6.2;
+	getline(ReadFile, P->metric, ' ');
+	return(P);
+}
+
+void OutPOL(polar * P, ofstream & WriteFile)
+{
+	WriteFile << "Полярные координаты:   ";
+	WriteFile << "(" << P->radius << ";" << P->angle << ")  ||  Е.И " << P->metric << endl;
 }
 
 float Count(polar * P)
@@ -301,10 +294,6 @@ void FiltredOut(container &c, ofstream &WriteFile)
 		}
 	}
 }
-
-
-
-
 
 int NOD(int a, int b)
 {
