@@ -32,12 +32,11 @@ void In(ifstream &ReadFile, container &c)
 // Вывод содержимого контейнера
 void Out(container &c, ofstream &WriteFile)
 {
+	c.current = c.current->next;
 
 	for (int i = 0; i < c.len; i++)
 	{
 		WriteFile << i + 1 << ": ";
-		if (i == 0)
-			c.current = c.current->next;
 		if (c.len > 0)
 		{
 			OutT(c.current, WriteFile);
