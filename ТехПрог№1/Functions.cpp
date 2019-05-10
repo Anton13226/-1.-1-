@@ -87,11 +87,6 @@ type *InType(type *current, ifstream &ReadFile)
 		temp = (type*)InputShot(ReadFile);
 		temp->k = SHOT;
 		break;
-	case 3:
-		temp = (type*)InputPolar(ReadFile);
-		temp->k = POLAR;
-		break;
-
 	default:
 		return 0;
 	}
@@ -127,10 +122,6 @@ void OutT(type *s, ofstream &WriteFile)
 
 		OutSHOT((shot*)s, WriteFile);
 		break;
-	case POLAR:
-		OutPOL((polar*)s, WriteFile);
-		break;
-
 	default:
 		break;
 	}
@@ -142,7 +133,7 @@ complex * InputComplex(ifstream &ReadFile)
 	C = new complex;
 	ReadFile >> C->number1;
 	ReadFile >> C->number2;
-	getline(ReadFile, C->metric, ' ');
+	ReadFile >> C->metric;
 	return(C);
 }
 
@@ -168,7 +159,7 @@ shot * InputShot(ifstream &ReadFile)
 	S = new shot;
 	ReadFile >> S->number1;
 	ReadFile >> S->number2;
-	getline(ReadFile, S->metric, ' ');
+	ReadFile >> S->metric;
 	return(S);
 }
 
@@ -187,34 +178,6 @@ float Count(shot * S)
 	return Sort;
 }
 
-polar * InputPolar(ifstream & ReadFile)
-{
-	polar *P;
-	P = new polar;
-	ReadFile >> P->radius;
-	if (P->radius < 0)
-		P->radius = 0 - P->radius;
-	ReadFile >> P->angle;
-	if ((P->angle < 0) || (P->angle > 6.2))
-		P->radius = 6.2;
-	getline(ReadFile, P->metric, ' ');
-	return(P);
-}
-
-void OutPOL(polar * P, ofstream & WriteFile)
-{
-	WriteFile << "Полярные координаты:   ";
-	WriteFile << "(" << P->radius << ";" << P->angle << ")  ||  Е.И " << P->metric << endl;
-}
-
-float Count(polar * P)
-{
-	double Sort = 0;
-	Sort = P->angle;
-	return Sort;
-}
-
-
 float Sravnenie(type *s)
 {
 	float temp;
@@ -227,10 +190,6 @@ float Sravnenie(type *s)
 	case SHOT:
 
 		temp = Count((shot*) s);
-		return temp;
-	case POLAR:
-
-		temp = Count((polar*)s);
 		return temp;
 	}
 }
@@ -273,10 +232,6 @@ void SwitchOut(type *s, ofstream &WriteFile)
 
 		OutSHOT((shot*)s, WriteFile);
 		break;
-	case POLAR:
-
-		break;
-
 	default:
 		break;
 	}
@@ -292,6 +247,59 @@ void FiltredOut(container &c, ofstream &WriteFile)
 			SwitchOut(c.current, WriteFile);
 			c.current = c.current->next;
 		}
+	}
+}
+
+void Multimethod(container &c, ofstream &WriteFile)
+{
+	WriteFile << "Multimethod." << endl;
+	WriteFile << "================================================" << endl;
+	type *First_point = c.current;
+	type *Second_point = First_point->next;
+	for (int i = 0; i < c.len; i++)
+	{
+		for (int i = 0; i < c.len - 1; i++)
+		{
+			switch (First_point->k)
+			{
+			case COMPLEX:
+				switch (Second_point->k)
+				{
+				case COMPLEX:
+					WriteFile << "COMPLEX and COMPLEX." << endl;
+					break;
+				case SHOT:
+					WriteFile << "COMPLEX and SHOT." << endl;
+					break;
+				default:
+					WriteFile << "Unknown type" << endl;
+				}
+				break;
+			case SHOT:
+				switch (Second_point->k)
+				{
+				case COMPLEX:
+					WriteFile << "SHOT and COMPLEX." << endl;
+					break;
+				case SHOT:
+					WriteFile << "SHOT and SHOT." << endl;
+					break;
+				default:
+					WriteFile << "Unknown type" << endl;
+					break;
+				}
+				break;
+			default:
+				WriteFile << "Unknown type" << endl;
+				break;
+			}
+			OutT(First_point, WriteFile);
+			OutT(Second_point, WriteFile);
+			WriteFile << endl;
+			Second_point = Second_point->next;
+		}
+		First_point = First_point->next;
+		Second_point = First_point->next;
 	}
 }
 

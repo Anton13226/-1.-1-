@@ -33,16 +33,6 @@ struct shot :type
 	string metric;
 };
 
-struct polar :type
-{
-	type *next;
-	key k; // ключ
-
-	double radius;
-	double angle;
-	string metric;
-};
-
 struct container
 {
 	int len;
@@ -64,7 +54,6 @@ float Count(shot *S);
 
 float Count(complex *C);
 
-float Count(polar *P);
 
 void Sorting(container &c);
 
@@ -96,9 +85,6 @@ complex * InputComplex(ifstream &ReadFile);
 //Вывод комплексного числа
 void OutCOM(complex *C, ofstream &WriteFile);
 
-polar * InputPolar(ifstream &ReadFile);
-
-//Вывод комплексного числа
-void OutPOL(polar *P, ofstream &WriteFile);
+void Multimethod(container &c, ofstream &WriteFile);
 
 int NOD(int a, int b);
