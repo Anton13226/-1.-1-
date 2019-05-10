@@ -13,12 +13,6 @@ void Initialisation(container &c)
 // Ввод содержимого контейнера
 void In(ifstream &ReadFile, container &c)
 {
-	if (!ReadFile.eof())
-	{
-		c.current = InType(c.current, ReadFile);
-		c.len++;
-	}
-
 	while (!ReadFile.eof())
 	{
 		if ((c.current = InType(c.current, ReadFile)) != 0)
@@ -28,11 +22,9 @@ void In(ifstream &ReadFile, container &c)
 	}
 }
 
-
 // Вывод содержимого контейнера
 void Out(container &c, ofstream &WriteFile)
 {
-
 	for (int i = 0; i < c.len; i++)
 	{
 		WriteFile << i + 1 << ": ";
@@ -69,8 +61,6 @@ void Clear(container &c)
 	}
 }
 
-
-
 ///////////////////________СПИСОК___________////////////////////
 //Общий ввод
 type *InType(type *current, ifstream &ReadFile)
@@ -78,7 +68,8 @@ type *InType(type *current, ifstream &ReadFile)
 	type *temp, *help;
 	int k;
 	ReadFile >> k;
-	switch (k) {
+	switch (k)
+	{
 	case 1:
 		temp = (type*)InputComplex(ReadFile);
 		temp->k = COMPLEX;
@@ -91,46 +82,34 @@ type *InType(type *current, ifstream &ReadFile)
 		temp = (type*)InputPolar(ReadFile);
 		temp->k = POLAR;
 		break;
-
 	default:
 		return 0;
 	}
-
 	if (current == NULL)
-	{
 		temp->next = temp; // указатель на самого себя
-	}
-
 	else
 	{
 		help = current->next; // сохранение указателя на следующий элемент
 		current->next = temp; // предыдущий узел указывает на создаваемый
 		temp->next = help; // созданный узел указывает на следующий элемент
 	}
-
-
-
 	return temp;
 }
 
 // Вывод текущей структуры
 void OutT(type *s, ofstream &WriteFile)
 {
-
-	switch (s->k) {
+	switch (s->k) 
+	{
 	case COMPLEX:
-
 		OutCOM((complex*)s, WriteFile);
 		break;
-
 	case SHOT:
-
 		OutSHOT((shot*)s, WriteFile);
 		break;
 	case POLAR:
 		OutPOL((polar*)s, WriteFile);
 		break;
-
 	default:
 		break;
 	}
@@ -214,22 +193,18 @@ float Count(polar * P)
 	return Sort;
 }
 
-
 float Sravnenie(type *s)
 {
 	float temp;
-	switch (s->k) {
+	switch (s->k) 
+	{
 	case COMPLEX:
-
 		temp = Count((complex*)s);
 		return temp;
-
 	case SHOT:
-
 		temp = Count((shot*) s);
 		return temp;
 	case POLAR:
-
 		temp = Count((polar*)s);
 		return temp;
 	}
@@ -266,17 +241,12 @@ void SwitchOut(type *s, ofstream &WriteFile)
 {
 	switch (s->k) {
 	case COMPLEX:
-
 		break;
-
 	case SHOT:
-
 		OutSHOT((shot*)s, WriteFile);
 		break;
 	case POLAR:
-
 		break;
-
 	default:
 		break;
 	}
