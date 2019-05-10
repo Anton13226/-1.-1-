@@ -101,4 +101,6 @@ polar * InputPolar(ifstream &ReadFile);
 //Вывод комплексного числа
 void OutPOL(polar *P, ofstream &WriteFile);
 
+void Multimethod(container &c, ofstream &WriteFile);
+
 int NOD(int a, int b);

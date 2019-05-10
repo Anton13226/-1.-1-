@@ -142,7 +142,7 @@ complex * InputComplex(ifstream &ReadFile)
 	C = new complex;
 	ReadFile >> C->number1;
 	ReadFile >> C->number2;
-	getline(ReadFile, C->metric, ' ');
+	ReadFile >> C->metric;
 	return(C);
 }
 
@@ -168,7 +168,7 @@ shot * InputShot(ifstream &ReadFile)
 	S = new shot;
 	ReadFile >> S->number1;
 	ReadFile >> S->number2;
-	getline(ReadFile, S->metric, ' ');
+	ReadFile >> S->metric;
 	return(S);
 }
 
@@ -197,7 +197,7 @@ polar * InputPolar(ifstream & ReadFile)
 	ReadFile >> P->angle;
 	if ((P->angle < 0) || (P->angle > 6.2))
 		P->radius = 6.2;
-	getline(ReadFile, P->metric, ' ');
+	ReadFile >> P->metric;
 	return(P);
 }
 
@@ -292,6 +292,81 @@ void FiltredOut(container &c, ofstream &WriteFile)
 			SwitchOut(c.current, WriteFile);
 			c.current = c.current->next;
 		}
+	}
+}
+
+void Multimethod(container &c, ofstream &WriteFile)
+{
+	WriteFile << "Multimethod." << endl;
+	WriteFile << "================================================" << endl;
+	type *First_point = c.current;
+	type *Second_point = First_point->next;
+	for (int i = 0; i < c.len; i++)
+	{
+		for (int j = 0; j < c.len; j++)
+		{
+			switch (First_point->k)
+			{
+			case COMPLEX:
+				switch (Second_point->k)
+				{
+				case COMPLEX:
+					WriteFile << "COMPLEX and COMPLEX." << endl;
+					break;
+				case SHOT:
+					WriteFile << "COMPLEX and SHOT." << endl;
+					break;
+				case POLAR:
+					WriteFile << "COMPLEX and POLAR." << endl;
+					break;
+				default:
+					WriteFile << "Unknown type" << endl;
+				}
+				break;
+			case SHOT:
+				switch (Second_point->k)
+				{
+				case COMPLEX:
+					WriteFile << "SHOT and COMPLEX." << endl;
+					break;
+				case SHOT:
+					WriteFile << "SHOT and SHOT." << endl;
+					break;
+				case POLAR:
+					WriteFile << "SHOT and POLAR." << endl;
+					break;
+				default:
+					WriteFile << "Unknown type" << endl;
+					break;
+				}
+				break;
+			case POLAR:
+				switch (Second_point->k)
+				{
+				case COMPLEX:
+					WriteFile << "POLAR and COMPLEX." << endl;
+					break;
+				case SHOT:
+					WriteFile << "POLAR and SHOT." << endl;
+					break;
+				case POLAR:
+					WriteFile << "POLAR and POLAR." << endl;
+				default:
+					WriteFile << "Unknown type" << endl;
+					break;
+				}
+				break;
+			default:
+				WriteFile << "Unknown type" << endl;
+				break;
+			}
+			OutT(First_point, WriteFile);
+			OutT(Second_point, WriteFile);
+			WriteFile << endl;
+			Second_point = Second_point->next;
+		}
+		First_point = First_point->next;
+		Second_point = First_point->next;
 	}
 }
 
