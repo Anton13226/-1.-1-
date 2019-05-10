@@ -32,7 +32,7 @@ void In(ifstream &ReadFile, container &c)
 // Вывод содержимого контейнера
 void Out(container &c, ofstream &WriteFile)
 {
-
+	c.current = c.current->next;
 	for (int i = 0; i < c.len; i++)
 	{
 		WriteFile << i + 1 << ": ";
@@ -256,9 +256,9 @@ void Multimethod(container &c, ofstream &WriteFile)
 	WriteFile << "================================================" << endl;
 	type *First_point = c.current;
 	type *Second_point = First_point->next;
-	for (int i = 0; i < c.len; i++)
+	for (int i = 0; i < c.len - 1; i++)
 	{
-		for (int i = 0; i < c.len - 1; i++)
+		for (int j = i + 1; j < c.len; j++)
 		{
 			switch (First_point->k)
 			{

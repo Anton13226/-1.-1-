@@ -13,11 +13,8 @@ int main()
 	container c;
 	Initialisation(c);
 	In(ReadFile, c);
-//	Out(c, WriteFile);
-//	WriteFile << "================================================" << endl;
-//	Sorting(c);
-//	Out(c, WriteFile);
-//	FiltredOut(c, WriteFile);
+	Out(c, WriteFile);
+	WriteFile << "================================================" << endl;
 	Multimethod(c, WriteFile);
 	Clear(c);
 	cout << "Stop" << endl;
